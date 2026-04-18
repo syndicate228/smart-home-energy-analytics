@@ -158,6 +158,7 @@ if df is not None:
     # ─── PAGE 2: EDA & VISUALIZATIONS ────────────────────────────────────────
     elif page == "📊 EDA & Visualizations":
         st.header("📊 Exploratory Data Analysis")
+
         tab1, tab2, tab3 = st.tabs(["Distribution", "Correlation", "Time Trends"])
 
         with tab1:
@@ -166,31 +167,30 @@ if df is not None:
                                title="Distribution of Energy Consumption (kW)")
             st.plotly_chart(fig, use_container_width=True)
 
-            with tab2:
-        st.subheader("Feature Correlation Heatmap")
-        
-        # Select only key features (not all appliances)
-        key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 
-                        'hour', 'month', 'dayofweek', 'net_consumption']
-        
-        # Filter dataframe to only include these columns
-        correlation_df = df[key_features]
-        
-        # Create heatmap
-        fig, ax = plt.subplots(figsize=(10, 8))
-        sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', 
-                    ax=ax, fmt='.2f', square=True, linewidths=0.5)
-        plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20)
-        st.pyplot(fig)
-        
-        # Add insights
-        st.info("""
-        **Key Insights:**
-        - Temperature & Humidity affect energy consumption
-        - Hour of day shows usage patterns
-        - Net consumption = Usage - Generation
-        """)
-
+        with tab2:
+            st.subheader("Feature Correlation Heatmap")
+            
+            # Select only key features (not all appliances)
+            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 
+                            'hour', 'month', 'dayofweek', 'net_consumption']
+            
+            # Filter dataframe to only include these columns
+            correlation_df = df[key_features]
+            
+            # Create heatmap
+            fig, ax = plt.subplots(figsize=(10, 8))
+            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', 
+                        ax=ax, fmt='.2f', square=True, linewidths=0.5)
+            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20)
+            st.pyplot(fig)
+            
+            # Add insights
+            st.info("""
+            **Key Insights:**
+            - Temperature & Humidity affect energy consumption
+            - Hour of day shows usage patterns
+            - Net consumption = Usage - Generation
+            """)
 
         with tab3:
             st.subheader("Consumption Trends")
@@ -203,6 +203,7 @@ if df is not None:
                 monthly = df.groupby('month')['use [kW]'].mean().reset_index()
                 fig = px.line(monthly, x='month', y='use [kW]', markers=True, title="Avg Consumption by Month")
                 st.plotly_chart(fig, use_container_width=True)
+
 
     # ─── PAGE 3: MODEL TRAINING ──────────────────────────────────────────────
     elif page == "🤖 Model Training & Results":
