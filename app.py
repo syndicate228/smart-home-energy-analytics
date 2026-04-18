@@ -81,7 +81,8 @@ def load_data():
     try:
         # Attempt to load the local CSV file
         # IMPORTANT: Ensure 'HomeC.csv' is in the same folder as app.py
-        df = pd.read_csv('HomeC.csv')
+        df = pd.read_csv('HomeC_sample.csv')
+
         
         # --- Data Cleaning & Feature Engineering ---
         # Convert time column to datetime if it exists
