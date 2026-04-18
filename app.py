@@ -125,7 +125,7 @@ df = load_data()
 # Only render pages if data loaded successfully
 if df is not None:
 
-    # ─── PAGE 1: HOME DASHBOARD ──────────────────────────────────────────────
+        # ─── PAGE 1: HOME DASHBOARD ──────────────────────────────────────────────
     if page == "🏠 Home":
         st.subheader("📌 Project Overview")
         col1, col2 = st.columns(2)
@@ -148,12 +148,39 @@ if df is not None:
         st.subheader("📄 Dataset Snapshot")
         st.dataframe(df.head(), use_container_width=True)
         
-        # Key Metrics
+        # Key Metrics - With Error Handling
+        st.markdown("---")
+        st.subheader("📊 Key Statistics")
         c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Total Records", f"{len(df):,}")
-        c2.metric("Avg Consumption", f"{df['use [kW]'].mean():.2f} kW")
-        c3.metric("Max Consumption", f"{df['use [kW]'].max():.2f} kW")
-        c4.metric("Avg Temperature", f"{df['temperature'].mean():.1f}°C")
+        
+        try:
+            c1.metric("Total Records", f"{len(df):,}")
+        except:
+            c1.metric("Total Records", "N/A")
+        
+        try:
+            c2.metric("Avg Consumption", f"{df['use [kW]'].mean():.2f} kW")
+        except:
+            c2.metric("Avg Consumption", "N/A")
+        
+        try:
+            c3.metric("Max Consumption", f"{df['use [kW]'].max():.2f} kW")
+        except:
+            c3.metric("Max Consumption", "N/A")
+        
+        try:
+            c4.metric("Avg Temperature", f"{df['temperature'].mean():.1f}°C")
+        except:
+            c4.metric("Avg Temperature", "N/A")
+        
+        # Debug: Show available columns
+        with st.expander("🔍 Debug: View Dataset Info"):
+            st.write("Available columns:", df.columns.tolist())
+            st.write("Data types:")
+            st.write(df.dtypes)
+            st.write("Missing values:")
+            st.write(df.isnull().sum())
+
 
     # ─── PAGE 2: EDA & VISUALIZATIONS ────────────────────────────────────────
     elif page == "📊 EDA & Visualizations":
