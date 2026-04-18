@@ -167,11 +167,30 @@ if df is not None:
             st.plotly_chart(fig, use_container_width=True)
 
         with tab2:
-            st.subheader("Feature Correlation Heatmap")
-            numeric_df = df.select_dtypes(include=np.number)
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
+             st.subheader("Feature Correlation Heatmap")
+    
+            # Select only key features (not all appliances)
+            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 
+                            'hour', 'month', 'dayofweek', 'net_consumption']
+            
+            # Filter dataframe to only include these columns
+            correlation_df = df[key_features]
+            
+            # Create heatmap
+            fig, ax = plt.subplots(figsize=(10, 8))
+            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', 
+                        ax=ax, fmt='.2f', square=True, linewidths=0.5)
+            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20)
             st.pyplot(fig)
+            
+            # Add insights
+            st.info("""
+            **Key Insights:**
+            - Temperature & Humidity affect energy consumption
+            - Hour of day shows usage patterns
+            - Net consumption = Usage - Generation
+            """)
+
 
         with tab3:
             st.subheader("Consumption Trends")
