@@ -205,24 +205,29 @@ if df is not None:
                 st.plotly_chart(fig, use_container_width=True)
 
 
-    # ─── PAGE 3: MODEL TRAINING ──────────────────────────────────────────────
+    # ─── PAGE 3: MODEL TRAINING & RESULTS ──────────────────────────────────────
     elif page == "🤖 Model Training & Results":
         st.header("🤖 Machine Learning Model Training")
         
         # Define Features and Target
-        # Ensure these column names match your CSV exactly
-        features = ['gen [kW]', 'temperature', 'humidity', 'hour', 'month', 'dayofweek']
+        features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
         target = 'use [kW]'
         
-        # Check if features exist in dataframe
-        if all(f in df.columns for f in features) and target in df.columns:
+        # Check if required columns exist
+        missing_cols = [col for col in features + [target] if col not in df.columns]
+        
+        if missing_cols:
+            st.error(f"❌ Missing columns in dataset: {missing_cols}")
+            st.info("Available columns: " + ", ".join(df.columns.tolist()))
+        else:
+            # Prepare data
             X = df[features]
             y = df[target]
             
             # Split Data
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
             
-            # Scaling (Required for Linear/Ridge, not strictly for RF but good for comparison)
+            # Scaling
             scaler = StandardScaler()
             X_train_sc = scaler.fit_transform(X_train)
             X_test_sc = scaler.transform(X_test)
@@ -243,7 +248,7 @@ if df is not None:
             else:
                 n_trees = st.slider("Number of Trees", 10, 200, 100, step=10)
                 model = RandomForestRegressor(n_estimators=n_trees, random_state=42)
-                model.fit(X_train, y_train) # RF doesn't need scaled data
+                model.fit(X_train, y_train)
                 y_pred = model.predict(X_test)
 
             # Evaluation Metrics
@@ -270,8 +275,7 @@ if df is not None:
                 fi = fi.sort_values('Importance', ascending=True)
                 fig = px.bar(fi, x='Importance', y='Feature', orientation='h', color='Importance')
                 st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.error("❌ Column names in CSV do not match expected features. Please check `app.py` feature list.")
+
 
     # ─── PAGE 4: ANOMALY DETECTION ───────────────────────────────────────────
     elif page == "🔍 Anomaly Detection":
