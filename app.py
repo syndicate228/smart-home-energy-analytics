@@ -165,66 +165,140 @@ def show_home():
     st.dataframe(df.head(10), use_container_width=True)
 
 def show_eda():
-    """EDA Page with Visualizations"""
+    """EDA Page with Dropdown Feature Selection"""
     st.markdown("---")
-    st.info("📊 **Exploratory Data Analysis** — Understanding data patterns before building models")
+    st.info("📊 **Exploratory Data Analysis** — Select features and chart types to explore data")
     
-    # TAB 1: DISTRIBUTION
-    st.write("### 📈 Distribution")
-    st.write("**What:** Shows how energy consumption values are distributed. **Key:** Most values cluster between 0.5-2.0 kW.")
+    # ─── DROPDOWN: SELECT FEATURE ────────────────────────────────────────────
+    st.write("### 🔍 Select Feature to Analyze")
     
-    if 'use [kW]' in df.columns:
-        fig1 = px.histogram(df, x='use [kW]', nbins=50, title="Energy Consumption Distribution",
-                           color_discrete_sequence=['#000000'])
-        fig1.update_layout(plot_bgcolor='white', paper_bgcolor='white')
-        st.plotly_chart(fig1, use_container_width=True)
+    available_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        selected_feature = st.selectbox(
+            "Choose Feature",
+            available_cols,
+            index=available_cols.index('use [kW]') if 'use [kW]' in available_cols else 0
+        )
+    with col2:
+        chart_type = st.selectbox(
+            "Chart Type",
+            ["Histogram", "Bar Chart", "Line Chart", "Box Plot", "Scatter Plot"]
+        )
+    
+    st.markdown("---")
+    
+    # ─── RENDER SELECTED CHART ───────────────────────────────────────────────
+    st.write(f"### 📈 {selected_feature} - {chart_type}")
+    
+    try:
+        if chart_type == "Histogram":
+            fig = px.histogram(df, x=selected_feature, nbins=50, title=f"Distribution of {selected_feature}",
+                              color_discrete_sequence=['#000000'])
+            st.plotly_chart(fig, width='stretch')
+            
+            # Show statistics
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Mean", f"{df[selected_feature].mean():.2f}")
+            c2.metric("Median", f"{df[selected_feature].median():.2f}")
+            c3.metric("Std Dev", f"{df[selected_feature].std():.2f}")
+            c4.metric("Min-Max", f"{df[selected_feature].min():.1f} - {df[selected_feature].max():.1f}")
         
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Mean", f"{df['use [kW]'].mean():.2f} kW")
-        c2.metric("Median", f"{df['use [kW]'].median():.2f} kW")
-        c3.metric("Std Dev", f"{df['use [kW]'].std():.2f} kW")
-    else:
-        st.error("Column 'use [kW]' not found")
+        elif chart_type == "Bar Chart":
+            if 'hour' in df.columns and selected_feature != 'hour':
+                grouped = df.groupby('hour')[selected_feature].mean().reset_index()
+                fig = px.bar(grouped, x='hour', y=selected_feature, 
+                            title=f"{selected_feature} by Hour",
+                            color_discrete_sequence=['#000000'])
+                st.plotly_chart(fig, width='stretch')
+                st.write("**Insight:** Shows how consumption varies throughout the day.")
+            else:
+                st.warning("Hour column needed for bar chart grouping")
+        
+        elif chart_type == "Line Chart":
+            if 'month' in df.columns:
+                grouped = df.groupby('month')[selected_feature].mean().reset_index()
+                fig = px.line(grouped, x='month', y=selected_feature, markers=True,
+                             title=f"{selected_feature} by Month",
+                             color_discrete_sequence=['#000000'])
+                st.plotly_chart(fig, width='stretch')
+                st.write("**Insight:** Shows seasonal trends in consumption.")
+            else:
+                st.warning("Month column needed for line chart")
+        
+        elif chart_type == "Box Plot":
+            fig = px.box(df, y=selected_feature, title=f"Box Plot of {selected_feature}",
+                        color_discrete_sequence=['#000000'])
+            st.plotly_chart(fig, width='stretch')
+            st.write("**Insight:** Shows distribution, median, and outliers.")
+        
+        elif chart_type == "Scatter Plot":
+            if 'temperature' in df.columns and selected_feature != 'temperature':
+                fig = px.scatter(df, x='temperature', y=selected_feature, 
+                                title=f"{selected_feature} vs Temperature",
+                                color_discrete_sequence=['#000000'])
+                st.plotly_chart(fig, width='stretch')
+                st.write("**Insight:** Shows relationship between temperature and consumption.")
+            else:
+                st.warning("Temperature column needed for scatter plot")
+    
+    except Exception as e:
+        st.error(f"Chart error: {e}")
     
     st.markdown("---")
     
-    # TAB 2: CORRELATION
-    st.write("### 🔗 Correlation")
-    st.write("**What:** Shows relationships between features. **Red** = Positive, **Blue** = Negative.")
+    # ─── CORRELATION HEATMAP (Always Show) ───────────────────────────────────
+    st.write("### 🔗 Feature Correlation Heatmap")
+    st.write("Red = Positive correlation | Blue = Negative correlation")
     
-    cols = ['use [kW]', 'temperature', 'humidity', 'hour', 'month']
-    cols = [c for c in cols if c in df.columns]
+    corr_cols = ['use [kW]', 'temperature', 'humidity', 'hour', 'month', 'dayofweek']
+    corr_cols = [c for c in corr_cols if c in df.columns]
     
-    if len(cols) >= 2:
-        corr_df = df[cols]
-        fig2, ax = plt.subplots(figsize=(10, 8))
+    if len(corr_cols) >= 2:
+        corr_df = df[corr_cols]
+        fig, ax = plt.subplots(figsize=(10, 8))
         sns.heatmap(corr_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
-        st.pyplot(fig2)
-        st.success("✅ Temperature and hour are strong predictors!")
-    else:
-        st.error("Not enough columns for correlation")
+        st.pyplot(fig)
+        
+        # Show top correlations
+        st.write("### 🔝 Top Correlations with Consumption")
+        if 'use [kW]' in corr_cols:
+            correlations = corr_df['use [kW]'].corrwith(corr_df).abs().sort_values(ascending=False)
+            corr_table = pd.DataFrame({
+                'Feature': correlations.index,
+                'Correlation': correlations.values.round(2)
+            })
+            st.dataframe(corr_table.head(5), width='stretch')
+            st.success(f"💡 Strongest predictor: {correlations.index[1]} (correlation: {correlations.iloc[1]:.2f})")
     
     st.markdown("---")
     
-    # TAB 3: TRENDS
-    st.write("### 📅 Trends")
-    st.write("**What:** Consumption patterns by hour and month. **Peak:** 6-9 AM and 5-10 PM.")
+    # ─── TIME TRENDS (Always Show) ───────────────────────────────────────────
+    st.write("### 📅 Time-Based Trends")
     
-    if 'hour' in df.columns and 'use [kW]' in df.columns:
-        st.write("#### Hourly Pattern")
-        hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
-        fig3 = px.bar(hourly, x='hour', y='use [kW]', title="Average Consumption by Hour",
-                     color_discrete_sequence=['#000000'])
-        fig3.update_layout(plot_bgcolor='white', paper_bgcolor='white')
-        st.plotly_chart(fig3, use_container_width=True)
+    tab1, tab2 = st.tabs(["Hourly", "Monthly"])
     
-    if 'month' in df.columns and 'use [kW]' in df.columns:
-        st.write("#### Monthly Pattern")
-        monthly = df.groupby('month')['use [kW]'].mean().reset_index()
-        fig4 = px.line(monthly, x='month', y='use [kW]', markers=True, title="Average Consumption by Month",
-                      color_discrete_sequence=['#000000'])
-        fig4.update_layout(plot_bgcolor='white', paper_bgcolor='white')
-        st.plotly_chart(fig4, use_container_width=True)
+    with tab1:
+        if 'hour' in df.columns and 'use [kW]' in df.columns:
+            st.write("#### Consumption by Hour")
+            hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
+            fig = px.bar(hourly, x='hour', y='use [kW]', 
+                        title="Average Consumption by Hour of Day",
+                        color_discrete_sequence=['#000000'])
+            st.plotly_chart(fig, width='stretch')
+            st.write("**Peak Hours:** 6-9 AM (morning) and 5-10 PM (evening)")
+            st.write("**Low Hours:** 11 PM - 5 AM (night)")
+    
+    with tab2:
+        if 'month' in df.columns and 'use [kW]' in df.columns:
+            st.write("#### Consumption by Month")
+            monthly = df.groupby('month')['use [kW]'].mean().reset_index()
+            fig = px.line(monthly, x='month', y='use [kW]', markers=True,
+                         title="Average Consumption by Month",
+                         color_discrete_sequence=['#000000'])
+            st.plotly_chart(fig, width='stretch')
+            st.write("**Summer:** Higher (AC usage) | **Winter:** Elevated (heating) | **Spring/Fall:** Lower")
 
 def show_model_training():
     """Model Training Page"""
