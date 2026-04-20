@@ -41,24 +41,24 @@ st.markdown("""
     }
     
     /* Headers */
-    .main-header {
-        font-size: 3rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        padding: 1.5rem 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .sub-header {
-        font-size: 1.3rem;
-        color: #555;
-        text-align: center;
-        margin-bottom: 2rem;
-        font-weight: 500;
-    }
+.main-header {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #000000;
+    text-align: left;
+    padding: 1.5rem 0;
+    border-bottom: 3px solid #000000;
+    margin-bottom: 1rem;
+}
+
+.sub-header {
+    font-size: 1.3rem;
+    color: #666666;
+    text-align: left;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
     
     /* Sidebar */
     .css-1d391kg {
