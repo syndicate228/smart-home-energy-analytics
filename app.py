@@ -459,3 +459,4 @@ if df is not None:
                 plot_bgcolor='rgba(255,255,255,1)',
                 paper_bgcolor='rgba(255,255,255,1)',
                 font=dict(family)
+            )
