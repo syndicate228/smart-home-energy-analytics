@@ -25,160 +25,239 @@ st.set_page_config(
 # ─── SECTION 3: CUSTOM CSS STYLING ───────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Main Background */
+    /* Import Clean Font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Main Background - Clean White */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
+        background-color: #ffffff;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     /* Main Container */
     .main > div {
-        background-color: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
+        background-color: #ffffff;
         padding: 2rem;
-        margin: 1rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        margin: 0;
+        max-width: 1400px;
+        margin: 0 auto;
     }
     
-    /* Headers */
+    /* Headers - Clean & Bold */
     .main-header {
-        font-size: 3rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        padding: 1.5rem 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-align: left;
+        padding: 2rem 0 1rem 0;
+        letter-spacing: -0.5px;
+        border-bottom: 2px solid #000000;
+        margin-bottom: 0.5rem;
     }
     
     .sub-header {
-        font-size: 1.3rem;
-        color: #555;
-        text-align: center;
+        font-size: 1.1rem;
+        color: #666666;
+        text-align: left;
         margin-bottom: 2rem;
-        font-weight: 500;
+        font-weight: 400;
+        line-height: 1.6;
     }
     
-    /* Sidebar */
+    /* Section Headers */
+    h1, h2, h3 {
+        color: #1a1a1a;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+    }
+    
+    /* Sidebar - Minimalist */
     .css-1d391kg {
-        background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+        background-color: #fafafa;
+        border-right: 1px solid #e5e5e5;
     }
     
     .sidebar .sidebar-content {
-        background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+        background-color: #fafafa;
     }
     
-    /* Metric Cards */
+    /* Navigation Items */
+    .stRadio > label {
+        color: #333333;
+        font-weight: 500;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        margin: 0.2rem 0;
+        transition: all 0.2s ease;
+    }
+    
+    .stRadio > label:hover {
+        background-color: #f0f0f0;
+    }
+    
+    .stRadio input:checked + label {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+    
+    /* Metric Cards - Clean Border Style */
     .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
+        background-color: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
         padding: 1.5rem;
-        color: white;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        transition: transform 0.3s ease;
+        text-align: left;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
     
     .metric-card:hover {
-        transform: translateY(-5px);
+        border-color: #1a1a1a;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     }
     
     .metric-value {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 700;
+        color: #1a1a1a;
         margin: 0.5rem 0;
     }
     
     .metric-label {
-        font-size: 1rem;
-        opacity: 0.9;
+        font-size: 0.85rem;
+        color: #666666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 500;
     }
     
-    /* Info Boxes */
+    /* Info Boxes - Minimalist */
     .info-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
+        background-color: #fafafa;
+        border-left: 3px solid #1a1a1a;
+        border-radius: 8px;
         padding: 1.5rem;
-        color: white;
-        margin: 1rem 0;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        color: #333333;
+        margin: 1.5rem 0;
     }
     
     .warning-box {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        border-radius: 15px;
+        background-color: #fff9f9;
+        border-left: 3px solid #dc3545;
+        border-radius: 8px;
         padding: 1.5rem;
-        color: white;
-        margin: 1rem 0;
-        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        color: #333333;
+        margin: 1.5rem 0;
     }
     
     .success-box {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        border-radius: 15px;
+        background-color: #f8fff9;
+        border-left: 3px solid #28a745;
+        border-radius: 8px;
         padding: 1.5rem;
-        color: white;
-        margin: 1rem 0;
-        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        color: #333333;
+        margin: 1.5rem 0;
     }
     
-    /* Buttons */
+    /* Buttons - Clean Outline Style */
     .stButton > button {
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 0.5rem 2rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
+        background-color: #ffffff;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        background-color: #1a1a1a;
+        color: #ffffff;
     }
     
-    /* Tabs */
+    /* Tabs - Minimalist */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+        gap: 5px;
+        border-bottom: 1px solid #e5e5e5;
     }
     
     .stTabs [data-baseweb="tab"] {
-        border-radius: 10px;
-        padding: 0.5rem 1.5rem;
-        font-weight: 600;
+        border-radius: 0;
+        padding: 0.8rem 1.5rem;
+        font-weight: 500;
+        color: #666666;
+        border: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #1a1a1a;
+        background-color: transparent;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        color: white;
+        color: #1a1a1a;
+        background-color: transparent;
+        border-bottom: 2px solid #1a1a1a;
+        font-weight: 600;
     }
     
-    /* Footer */
+    /* DataFrames - Clean */
+    .dataframe {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    /* Footer - Minimalist */
     .footer {
         text-align: center;
-        margin-top: 3rem;
+        margin-top: 4rem;
         padding: 2rem;
-        color: #666;
-        font-size: 0.9rem;
-        border-top: 2px solid #eee;
+        color: #999999;
+        font-size: 0.85rem;
+        border-top: 1px solid #e5e5e5;
+    }
+    
+    /* Plotly Charts - Clean Background */
+    .plotly-chart {
+        background-color: #ffffff;
     }
     
     /* Hide Streamlit Branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* Divider Lines */
+    hr {
+        border: none;
+        border-top: 1px solid #e5e5e5;
+        margin: 2rem 0;
+    }
+    
+    /* Select Boxes */
+    .stSelectbox > div > div {
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+    }
+    
+    /* Slider */
+    .stSlider > div {
+        color: #1a1a1a;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # ─── SECTION 4: HEADER DISPLAY ───────────────────────────────────────────────
 st.markdown('<div class="main-header">⚡ Smart Home Energy Analytics</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">AI-Powered Load Forecasting & Conservation Advisor</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">AI-Powered Load Forecasting & Conservation Advisor for Smart Grid Optimization</div>', unsafe_allow_html=True)
 
 # ─── SECTION 5: SIDEBAR NAVIGATION ───────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### 🎯 Navigation")
+    st.markdown("### Navigation", unsafe_allow_html=True)
     st.markdown("---")
     page = st.radio(
         "Select Page",
@@ -192,19 +271,16 @@ with st.sidebar:
         label_visibility="collapsed"
     )
     st.markdown("---")
-    st.markdown("### 📋 Project Info")
-    st.info("""
-    **Subject:** Python for Data Science  
-    **Team:** SY ECE A1  
-    **Dataset:** HomeC (UCI/Kaggle)  
-    **Models:** LR, Ridge, Random Forest
+    st.markdown("### Project Information")
+    st.markdown("""
+    - **Subject:** Python for Data Science
+    - **Team:** SY ECE A1
+    - **Dataset:** HomeC (UCI/Kaggle)
+    - **Models:** LR, Ridge, RF
     """)
-    
-    # Add a visual element
     st.markdown("---")
-    st.markdown("### 🌟 Quick Stats")
-    st.metric("App Version", "2.0")
-    st.metric("Last Updated", "2024")
+    st.markdown("### Version")
+    st.caption("v2.0 | 2024")
 
 # ─── SECTION 6: DATA LOADING & PREPROCESSING ─────────────────────────────────
 @st.cache_data
@@ -247,35 +323,33 @@ if df is not None:
 
     # ─── PAGE 1: HOME DASHBOARD ──────────────────────────────────────────────
     if page == "🏠 Home Dashboard":
+        st.markdown("---")
+        
         # Project Overview Cards
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("""
             <div class="info-box">
-                <h3>🔋 Task 1: Smart Grid Load Balancing</h3>
-                <ul>
-                    <li><strong>Type:</strong> Supervised Regression</li>
-                    <li><strong>Goal:</strong> Predict energy consumption</li>
-                    <li><strong>Models:</strong> LR, Ridge, Random Forest</li>
-                </ul>
+                <h4>🔋 Task 1: Smart Grid Load Balancing</h4>
+                <p><strong>Type:</strong> Supervised Regression</p>
+                <p><strong>Goal:</strong> Predict energy consumption based on environmental and usage factors</p>
+                <p><strong>Models:</strong> Linear Regression, Ridge, Random Forest</p>
             </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown("""
             <div class="warning-box">
-                <h3>🚨 Task 2: Electricity Theft Detection</h3>
-                <ul>
-                    <li><strong>Type:</strong> Anomaly Detection</li>
-                    <li><strong>Goal:</strong> Identify abnormal patterns</li>
-                    <li><strong>Method:</strong> IQR Statistical Method</li>
-                </ul>
+                <h4>🚨 Task 2: Electricity Theft Detection</h4>
+                <p><strong>Type:</strong> Anomaly Detection</p>
+                <p><strong>Goal:</strong> Identify abnormal consumption patterns</p>
+                <p><strong>Method:</strong> IQR Statistical Method</p>
             </div>
             """, unsafe_allow_html=True)
 
         st.markdown("---")
         
-        # Key Metrics with Custom Cards
-        st.subheader("📊 Dataset Overview")
+        # Key Metrics with Clean Cards
+        st.markdown("### Dataset Overview")
         c1, c2, c3, c4 = st.columns(4)
         
         with c1:
@@ -311,25 +385,31 @@ if df is not None:
             """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.subheader("📄 Dataset Sample")
+        st.markdown("### Dataset Sample")
         st.dataframe(df.head(10), use_container_width=True)
 
     # ─── PAGE 2: EDA & VISUALIZATIONS ────────────────────────────────────────
     elif page == "📊 EDA & Visualizations":
-        st.header("📊 Exploratory Data Analysis")
+        st.markdown("---")
 
-        tab1, tab2, tab3 = st.tabs(["📈 Distribution", "🔗 Correlation", "📅 Time Trends"])
+        tab1, tab2, tab3 = st.tabs(["Distribution", "Correlation", "Time Trends"])
 
         with tab1:
-            st.subheader("Energy Consumption Distribution")
+            st.markdown("### Energy Consumption Distribution")
             fig = px.histogram(df, x='use [kW]', nbins=50, 
-                               color_discrete_sequence=['#667eea'],
+                               color_discrete_sequence=['#1a1a1a'],
                                title="Distribution of Energy Consumption (kW)")
-            fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+            fig.update_layout(
+                plot_bgcolor='rgba(255,255,255,1)',
+                paper_bgcolor='rgba(255,255,255,1)',
+                font=dict(family='Inter', size=12, color='#333333'),
+                xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
+                yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
+            )
             st.plotly_chart(fig, use_container_width=True)
 
         with tab2:
-            st.subheader("Feature Correlation Heatmap")
+            st.markdown("### Feature Correlation Heatmap")
             
             key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 
                             'hour', 'month', 'dayofweek', 'net_consumption']
@@ -338,42 +418,55 @@ if df is not None:
             
             fig, ax = plt.subplots(figsize=(10, 8))
             sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', 
-                        ax=ax, fmt='.2f', square=True, linewidths=0.5)
-            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20)
+                        ax=ax, fmt='.2f', square=True, linewidths=0.5,
+                        cbar_kws={'shrink': 0.8})
+            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20, fontweight='600')
             st.pyplot(fig)
             
             st.markdown("""
             <div class="success-box">
                 <strong>Key Insights:</strong>
                 <ul>
-                    <li>Temperature & Humidity affect energy consumption</li>
-                    <li>Hour of day shows usage patterns</li>
-                    <li>Net consumption = Usage - Generation</li>
+                    <li>Temperature & Humidity show correlation with energy consumption</li>
+                    <li>Hour of day reveals usage patterns (peak vs off-peak)</li>
+                    <li>Net consumption = Usage minus Generation</li>
                 </ul>
             </div>
             """, unsafe_allow_html=True)
 
         with tab3:
-            st.subheader("Consumption Trends")
+            st.markdown("### Consumption Trends")
             col_a, col_b = st.columns(2)
             with col_a:
                 hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
                 fig = px.bar(hourly, x='hour', y='use [kW]', 
-                             color_discrete_sequence=['#667eea'],
-                             title="Avg Consumption by Hour")
-                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                             color_discrete_sequence=['#1a1a1a'],
+                             title="Average Consumption by Hour")
+                fig.update_layout(
+                    plot_bgcolor='rgba(255,255,255,1)',
+                    paper_bgcolor='rgba(255,255,255,1)',
+                    font=dict(family='Inter', size=12, color='#333333'),
+                    xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
+                    yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
+                )
                 st.plotly_chart(fig, use_container_width=True)
             with col_b:
                 monthly = df.groupby('month')['use [kW]'].mean().reset_index()
                 fig = px.line(monthly, x='month', y='use [kW]', markers=True,
-                              color_discrete_sequence=['#764ba2'],
-                              title="Avg Consumption by Month")
-                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                              color_discrete_sequence=['#1a1a1a'],
+                              title="Average Consumption by Month")
+                fig.update_layout(
+                    plot_bgcolor='rgba(255,255,255,1)',
+                    paper_bgcolor='rgba(255,255,255,1)',
+                    font=dict(family='Inter', size=12, color='#333333'),
+                    xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
+                    yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
+                )
                 st.plotly_chart(fig, use_container_width=True)
 
     # ─── PAGE 3: MODEL TRAINING ──────────────────────────────────────────────
     elif page == "🤖 Model Training":
-        st.header("🤖 Machine Learning Model Training")
+        st.markdown("---")
         
         features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
         target = 'use [kW]'
@@ -414,7 +507,7 @@ if df is not None:
             rmse = np.sqrt(mean_squared_error(y_test, y_pred))
             r2 = r2_score(y_test, y_pred)
 
-            st.markdown("### 📏 Model Performance")
+            st.markdown("### Model Performance Metrics")
             c1, c2, c3 = st.columns(3)
             
             with c1:
@@ -441,140 +534,12 @@ if df is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-            st.subheader("Actual vs Predicted Values")
+            st.markdown("---")
+            st.markdown("### Actual vs Predicted Values")
             result_df = pd.DataFrame({'Actual': y_test.values[:200], 'Predicted': y_pred[:200]})
             fig = px.line(result_df, title="Actual vs Predicted (First 200 Samples)",
-                          color_discrete_sequence=['#667eea', '#764ba2'])
-            fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-            st.plotly_chart(fig, use_container_width=True)
-            
-            if model_choice == "Random Forest":
-                st.subheader("Feature Importance")
-                fi = pd.DataFrame({'Feature': features, 'Importance': model.feature_importances_})
-                fi = fi.sort_values('Importance', ascending=True)
-                fig = px.bar(fi, x='Importance', y='Feature', orientation='h',
-                             color_discrete_sequence=['#667eea'])
-                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-                st.plotly_chart(fig, use_container_width=True)
-
-    # ─── PAGE 4: ANOMALY DETECTION ───────────────────────────────────────────
-    elif page == "🔍 Anomaly Detection":
-        st.header("🔍 Electricity Theft / Anomaly Detection")
-        
-        st.markdown("""
-        <div class="info-box">
-            <strong>Method:</strong> IQR (Interquartile Range) — Outliers may indicate theft or leakage
-        </div>
-        """, unsafe_allow_html=True)
-
-        Q1 = df['use [kW]'].quantile(0.25)
-        Q3 = df['use [kW]'].quantile(0.75)
-        IQR = Q3 - Q1
-        lower = Q1 - 1.5 * IQR
-        upper = Q3 + 1.5 * IQR
-
-        df['anomaly'] = ((df['use [kW]'] < lower) | (df['use [kW]'] > upper))
-        anomalies = df[df['anomaly'] == True]
-        normal = df[df['anomaly'] == False]
-
-        c1, c2, c3 = st.columns(3)
-        
-        with c1:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">Total Records</div>
-                <div class="metric-value">{len(df):,}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with c2:
-            st.markdown(f"""
-            <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                <div class="metric-label">🚨 Anomalies</div>
-                <div class="metric-value">{len(anomalies):,}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with c3:
-            st.markdown(f"""
-            <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                <div class="metric-label">✅ Normal</div>
-                <div class="metric-value">{len(normal):,}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.subheader("Anomaly Visualization")
-        plot_df = df.head(1000).reset_index(drop=True)
-        fig = px.scatter(plot_df, x=plot_df.index, y='use [kW]',
-                         color='anomaly', 
-                         color_discrete_map={False: '#667eea', True: '#f5576c'},
-                         title="Energy Consumption (Red = Anomaly)")
-        fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-        st.plotly_chart(fig, use_container_width=True)
-
-        st.subheader("Sample Anomalous Records")
-        st.dataframe(anomalies[['time', 'use [kW]', 'hour', 'temperature']].head(10), 
-                     use_container_width=True)
-
-    # ─── PAGE 5: MODEL COMPARISON ────────────────────────────────────────────
-    elif page == "📈 Model Comparison":
-        st.header("📈 Algorithm Comparison")
-        st.markdown("""
-        <div class="info-box">
-            Comparing all three models on the same test set to determine the best performer
-        </div>
-        """, unsafe_allow_html=True)
-
-        features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
-        target = 'use [kW]'
-        X = df[features]; y = df[target]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        scaler = StandardScaler()
-        X_train_sc = scaler.fit_transform(X_train)
-        X_test_sc = scaler.transform(X_test)
-
-        results = {}
-        models = [
-            ("Linear Regression", LinearRegression(), True),
-            ("Ridge Regression", Ridge(alpha=1.0), True),
-            ("Random Forest", RandomForestRegressor(n_estimators=50, random_state=42), False)
-        ]
-
-        for name, model, use_scale in models:
-            if use_scale:
-                model.fit(X_train_sc, y_train)
-                pred = model.predict(X_test_sc)
-            else:
-                model.fit(X_train, y_train)
-                pred = model.predict(X_test)
-            
-            results[name] = {
-                "MAE": round(mean_absolute_error(y_test, pred), 4),
-                "RMSE": round(np.sqrt(mean_squared_error(y_test, pred)), 4),
-                "R²": round(r2_score(y_test, pred), 4)
-            }
-
-        comparison_df = pd.DataFrame(results).T.reset_index()
-        comparison_df.columns = ['Model', 'MAE', 'RMSE', 'R²']
-        st.dataframe(comparison_df, use_container_width=True)
-
-        fig = px.bar(comparison_df, x='Model', y='R²', color='R²',
-                     color_continuous_scale='Blues', 
-                     title="R² Score Comparison (Higher is Better)")
-        fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-        st.plotly_chart(fig, use_container_width=True)
-
-        best = comparison_df.loc[comparison_df['R²'].idxmax(), 'Model']
-        st.markdown(f"""
-        <div class="success-box">
-            <h3>🏆 Best Performing Model: {best}</h3>
-        </div>
-        """, unsafe_allow_html=True)
-
-# ─── SECTION 8: FOOTER ───────────────────────────────────────────────────────
-st.markdown("---")
-st.markdown("""
-<div class="footer">
-    <p>🚀 Deployed on Streamlit Cloud | 🎓 Python for Data Science Project | © 2024 Smart Home Energy Analytics</p>
-</div>
-""", unsafe_allow_html=True)
+                          color_discrete_sequence=['#1a1a1a', '#666666'])
+            fig.update_layout(
+                plot_bgcolor='rgba(255,255,255,1)',
+                paper_bgcolor='rgba(255,255,255,1)',
+                font=dict(family
