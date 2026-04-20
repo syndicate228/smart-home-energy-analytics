@@ -314,151 +314,56 @@ if df is not None:
         st.subheader("📄 Dataset Sample")
         st.dataframe(df.head(10), use_container_width=True)
 
-       # ─── PAGE 2: EDA ─────────────────────────────────────────────────────────
+    # ─── PAGE 2: EDA ─────────────────────────────────────────────────────────
     elif page == "EDA":
         st.markdown("---")
         
-        st.markdown("""
-        <div class="info-box">
-            <h4>📊 Exploratory Data Analysis</h4>
-            <p>EDA helps us understand data patterns, relationships, and anomalies before building models. 
-            This analysis reveals consumption patterns, feature correlations, and temporal trends.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        tab1, tab2, tab3 = st.tabs(["📈 Distribution", "🔗 Correlation", "📅 Trends"])
-
-        # ─── TAB 1: DISTRIBUTION ─────────────────────────────────────────────
+        # Intro Box
+        st.info("📊 **Exploratory Data Analysis** — Understanding data patterns before building models")
+        
+        tab1, tab2, tab3 = st.tabs(["Distribution", "Correlation", "Trends"])
+        
+        # TAB 1: DISTRIBUTION
         with tab1:
-            st.markdown("### Energy Consumption Distribution")
-            
-            st.markdown("""
-            **What This Shows:**
-            This histogram displays how energy consumption values are distributed across all records.
-            
-            **Key Observations:**
-            - **Peak Range:** Most consumption values cluster between 0.5-2.0 kW (typical household usage)
-            - **Right Skew:** Some high-consumption outliers exist (appliance spikes, AC usage)
-            - **Normal Pattern:** Distribution follows expected household energy patterns
-            
-            **Why It Matters:**
-            Understanding the distribution helps us:
-            - Identify normal vs. abnormal consumption
-            - Detect potential outliers for anomaly detection
-            - Choose appropriate ML models for prediction
-            """)
+            st.write("### Energy Consumption Distribution")
+            st.write("**What This Shows:** Histogram of energy consumption values across all records.")
+            st.write("**Key Observations:** Most values cluster between 0.5-2.0 kW (typical household usage). Some high-consumption outliers exist (appliance spikes).")
             
             fig = px.histogram(df, x='use [kW]', nbins=50, color_discrete_sequence=['#000000'])
-            fig.update_layout(
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                xaxis_title='Consumption (kW)',
-                yaxis_title='Frequency',
-                xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
-                yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
-            )
             st.plotly_chart(fig, use_container_width=True)
-
-        # ─── TAB 2: CORRELATION ──────────────────────────────────────────────
+        
+        # TAB 2: CORRELATION
         with tab2:
-            st.markdown("### Feature Correlation Heatmap")
+            st.write("### Feature Correlation Heatmap")
+            st.write("**What This Shows:** Correlation between features (-1 to +1). Red = positive, Blue = negative.")
+            st.write("**Key Insights:** Temperature and hour show strong correlation with consumption.")
             
-            st.markdown("""
-            **What This Shows:**
-            The heatmap displays correlation coefficients between features. Values range from -1 to +1.
-            
-            **How to Read:**
-            - **Red (Positive):** Features increase together (e.g., temperature → AC usage)
-            - **Blue (Negative):** Features move oppositely (e.g., solar gen → grid consumption)
-            - **White (Neutral):** No relationship between features
-            
-            **Key Correlations Found:**
-            | Feature Pair | Correlation | Interpretation |
-            |--------------|-------------|----------------|
-            | Temperature → Consumption | Positive | Higher temp = more AC usage |
-            | Hour → Consumption | Moderate | Peak hours show higher usage |
-            | Generation → Consumption | Negative | Solar reduces grid dependency |
-            
-            **Why It Matters:**
-            - Helps select relevant features for models
-            - Identifies multicollinearity issues
-            - Reveals domain insights (weather impacts usage)
-            """)
-            
-            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 'hour', 'month', 'dayofweek']
+            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 'hour', 'month']
             correlation_df = df[key_features]
             fig, ax = plt.subplots(figsize=(10, 8))
-            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f', 
-                        square=True, linewidths=0.5, cbar_kws={'shrink': 0.8})
-            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20, fontweight='600')
+            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
             st.pyplot(fig)
             
-            st.success("""
-            **💡 Insight:** Temperature and hour of day are strong predictors of energy consumption. 
-            These features will be prioritized in our ML models.
-            """)
-
-        # ─── TAB 3: TRENDS ───────────────────────────────────────────────────
+            st.success("💡 Temperature and hour are strong predictors for our ML models.")
+        
+        # TAB 3: TRENDS
         with tab3:
-            st.markdown("### Hourly Consumption Pattern")
-            
-            st.markdown("""
-            **What This Shows:**
-            Average energy consumption for each hour of the day (0-23 hours).
-            
-            **Key Observations:**
-            - **Morning Peak (6-9 AM):** People waking up, using appliances, heating/cooling
-            - **Daytime Dip (10 AM-4 PM):** Lower usage when people are at work/school
-            - **Evening Peak (5-10 PM):** Highest usage - cooking, lighting, entertainment, AC
-            - **Night Low (11 PM-5 AM):** Minimal usage during sleep hours
-            
-            **Why It Matters:**
-            - **Grid Management:** Utilities can predict peak load times
-            - **Cost Optimization:** Users can shift usage to off-peak hours
-            - **Smart Home:** Automate appliances during low-consumption periods
-            """)
+            st.write("### Hourly Consumption Pattern")
+            st.write("**What This Shows:** Average consumption for each hour (0-23).")
+            st.write("**Key Observations:** Morning peak (6-9 AM), Evening peak (5-10 PM), Night low (11 PM-5 AM).")
             
             hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
-            fig = px.bar(hourly, x='hour', y='use [kW]', color_discrete_sequence=['#000000'],
-                         labels={'hour': 'Hour of Day', 'use [kW]': 'Avg Consumption (kW)'})
-            fig.update_layout(
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
-                yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
-            )
+            fig = px.bar(hourly, x='hour', y='use [kW]', color_discrete_sequence=['#000000'])
             st.plotly_chart(fig, use_container_width=True)
             
-            st.markdown("---")
-            st.markdown("### Monthly Consumption Trend")
-            
-            st.markdown("""
-            **What This Shows:**
-            Average energy consumption across different months of the year.
-            
-            **Key Observations:**
-            - **Summer Months:** Higher consumption due to AC/cooling systems
-            - **Winter Months:** Elevated usage from heating systems
-            - **Spring/Fall:** Lower consumption (moderate weather = less HVAC)
-            
-            **Why It Matters:**
-            - **Seasonal Planning:** Utilities prepare for seasonal demand changes
-            - **Energy Conservation:** Target high-consumption months for awareness campaigns
-            - **Model Accuracy:** Include month as a feature for better predictions
-            """)
+            st.write("---")
+            st.write("### Monthly Consumption Trend")
+            st.write("**What This Shows:** Average consumption across months.")
+            st.write("**Key Observations:** Summer = higher (AC), Winter = elevated (heating), Spring/Fall = lower.")
             
             monthly = df.groupby('month')['use [kW]'].mean().reset_index()
-            fig = px.line(monthly, x='month', y='use [kW]', markers=True,
-                          color_discrete_sequence=['#000000'],
-                          labels={'month': 'Month', 'use [kW]': 'Avg Consumption (kW)'})
-            fig.update_layout(
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                xaxis=dict(showgrid=True, gridcolor='#f0f0f0'),
-                yaxis=dict(showgrid=True, gridcolor='#f0f0f0')
-            )
+            fig = px.line(monthly, x='month', y='use [kW]', markers=True, color_discrete_sequence=['#000000'])
             st.plotly_chart(fig, use_container_width=True)
-
 
     # ─── PAGE 3: MODEL TRAINING ──────────────────────────────────────────────
     elif page == "🤖 Model Training":
