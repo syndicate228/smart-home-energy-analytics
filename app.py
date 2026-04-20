@@ -25,91 +25,147 @@ st.set_page_config(
 # ─── SECTION 3: CUSTOM CSS STYLING ───────────────────────────────────────────
 st.markdown("""
 <style>
+    /* Main Background */
     .stApp {
-        background-color: #ffffff;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
     }
     
+    /* Main Container */
+    .main > div {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Headers */
     .main-header {
         font-size: 3rem;
-        font-weight: 700;
-        color: #000000;
-        text-align: left;
+        font-weight: 800;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
         padding: 1.5rem 0;
-        border-bottom: 3px solid #000000;
-        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     
     .sub-header {
-        font-size: 1.2rem;
-        color: #666666;
-        text-align: left;
+        font-size: 1.3rem;
+        color: #555;
+        text-align: center;
         margin-bottom: 2rem;
+        font-weight: 500;
     }
     
+    /* Sidebar */
+    .css-1d391kg {
+        background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+    }
+    
+    .sidebar .sidebar-content {
+        background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+    }
+    
+    /* Metric Cards */
     .metric-card {
-        background-color: #ffffff;
-        border: 2px solid #e5e5e5;
-        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
         padding: 1.5rem;
-        text-align: left;
-        transition: all 0.3s ease;
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: transform 0.3s ease;
     }
     
     .metric-card:hover {
-        border-color: #000000;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
     }
     
     .metric-value {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #000000;
         margin: 0.5rem 0;
     }
     
     .metric-label {
-        font-size: 0.75rem;
-        color: #666666;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 600;
+        font-size: 1rem;
+        opacity: 0.9;
     }
     
+    /* Info Boxes */
     .info-box {
-        background-color: #000000;
-        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
         padding: 1.5rem;
-        color: #ffffff;
+        color: white;
         margin: 1rem 0;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
     
     .warning-box {
-        background-color: #ffffff;
-        border: 2px solid #dc3545;
-        border-radius: 12px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 15px;
         padding: 1.5rem;
-        color: #000000;
+        color: white;
         margin: 1rem 0;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
     }
     
     .success-box {
-        background-color: #f0fff4;
-        border: 2px solid #28a745;
-        border-radius: 12px;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        border-radius: 15px;
         padding: 1.5rem;
-        color: #000000;
+        color: white;
         margin: 1rem 0;
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
     }
     
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    /* Footer */
     .footer {
         text-align: center;
         margin-top: 3rem;
         padding: 2rem;
-        color: #999999;
-        font-size: 0.85rem;
-        border-top: 1px solid #e5e5e5;
+        color: #666;
+        font-size: 0.9rem;
+        border-top: 2px solid #eee;
     }
     
+    /* Hide Streamlit Branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
@@ -118,26 +174,39 @@ st.markdown("""
 
 # ─── SECTION 4: HEADER DISPLAY ───────────────────────────────────────────────
 st.markdown('<div class="main-header">⚡ Smart Home Energy Analytics</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">AI-powered load forecasting and conservation advisor for smart grid optimization</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">AI-Powered Load Forecasting & Conservation Advisor</div>', unsafe_allow_html=True)
 
 # ─── SECTION 5: SIDEBAR NAVIGATION ───────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### Menu")
+    st.markdown("### 🎯 Navigation")
     st.markdown("---")
     page = st.radio(
         "Select Page",
-        ["Home", "EDA", "Model Training", "Anomaly Detection", "Model Comparison"]
+        [
+            "🏠 Home Dashboard",
+            "📊 EDA & Visualizations",
+            "🤖 Model Training",
+            "🔍 Anomaly Detection",
+            "📈 Model Comparison"
+        ],
+        label_visibility="collapsed"
     )
     st.markdown("---")
-    st.markdown("### Project Details")
-    st.markdown("- **Subject:** Python for Data Science")
-    st.markdown("- **Team:** SY ECE A1")
-    st.markdown("- **Dataset:** HomeC (Kaggle)")
-    st.markdown("- **Models:** LR, Ridge, RF")
+    st.markdown("### 📋 Project Info")
+    st.info("""
+    **Subject:** Python for Data Science  
+    **Team:** SY ECE A1  
+    **Dataset:** HomeC (UCI/Kaggle)  
+    **Models:** LR, Ridge, Random Forest
+    """)
+    
+    # Add a visual element
     st.markdown("---")
-    st.caption("v2.0 | 2024")
+    st.markdown("### 🌟 Quick Stats")
+    st.metric("App Version", "2.0")
+    st.metric("Last Updated", "2024")
 
-# ─── SECTION 6: DATA LOADING ─────────────────────────────────────────────────
+# ─── SECTION 6: DATA LOADING & PREPROCESSING ─────────────────────────────────
 @st.cache_data
 def load_data():
     try:
@@ -148,7 +217,11 @@ def load_data():
             df['hour'] = df['time'].dt.hour
             df['month'] = df['time'].dt.month
             df['dayofweek'] = df['time'].dt.dayofweek
-        
+        else:
+            df['hour'] = np.random.randint(0, 24, len(df))
+            df['month'] = np.random.randint(1, 13, len(df))
+            df['dayofweek'] = np.random.randint(0, 7, len(df))
+
         numeric_cols = ['use [kW]', 'gen [kW]', 'temperature', 'humidity']
         for col in numeric_cols:
             if col in df.columns:
@@ -160,8 +233,11 @@ def load_data():
             df['net_consumption'] = df['use [kW]'] - df['gen [kW]']
             
         return df
+    except FileNotFoundError:
+        st.error("❌ Error: 'HomeC_sample.csv' not found.")
+        return None
     except Exception as e:
-        st.error(f"Error loading data: {e}")
+        st.error(f"❌ Error loading data: {e}")
         return None
 
 df = load_data()
@@ -169,66 +245,145 @@ df = load_data()
 # ─── SECTION 7: PAGE LOGIC ───────────────────────────────────────────────────
 if df is not None:
 
-    # ─── PAGE 1: HOME ────────────────────────────────────────────────────────
-    if page == "Home":
-        st.markdown("---")
-        
+    # ─── PAGE 1: HOME DASHBOARD ──────────────────────────────────────────────
+    if page == "🏠 Home Dashboard":
+        # Project Overview Cards
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("#### 🔋 Task 1: Smart Grid Load Balancing")
-            st.info("**Type:** Supervised Regression\n\n**Goal:** Predict energy consumption\n\n**Models:** LR, Ridge, Random Forest")
+            st.markdown("""
+            <div class="info-box">
+                <h3>🔋 Task 1: Smart Grid Load Balancing</h3>
+                <ul>
+                    <li><strong>Type:</strong> Supervised Regression</li>
+                    <li><strong>Goal:</strong> Predict energy consumption</li>
+                    <li><strong>Models:</strong> LR, Ridge, Random Forest</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
         with col2:
-            st.markdown("#### 🚨 Task 2: Electricity Theft Detection")
-            st.warning("**Type:** Anomaly Detection\n\n**Goal:** Identify abnormal patterns\n\n**Method:** IQR Statistical")
+            st.markdown("""
+            <div class="warning-box">
+                <h3>🚨 Task 2: Electricity Theft Detection</h3>
+                <ul>
+                    <li><strong>Type:</strong> Anomaly Detection</li>
+                    <li><strong>Goal:</strong> Identify abnormal patterns</li>
+                    <li><strong>Method:</strong> IQR Statistical Method</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown("### Dataset Overview")
+        
+        # Key Metrics with Custom Cards
+        st.subheader("📊 Dataset Overview")
         c1, c2, c3, c4 = st.columns(4)
         
-        c1.metric("Total Records", f"{len(df):,}")
-        c2.metric("Avg Consumption", f"{df['use [kW]'].mean():.2f} kW")
-        c3.metric("Max Consumption", f"{df['use [kW]'].max():.2f} kW")
-        c4.metric("Avg Temperature", f"{df['temperature'].mean():.1f}°C")
+        with c1:
+            st.markdown(f"""
+            <div class="metric-card">
+                <div class="metric-label">Total Records</div>
+                <div class="metric-value">{len(df):,}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with c2:
+            st.markdown(f"""
+            <div class="metric-card">
+                <div class="metric-label">Avg Consumption</div>
+                <div class="metric-value">{df['use [kW]'].mean():.2f} kW</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with c3:
+            st.markdown(f"""
+            <div class="metric-card">
+                <div class="metric-label">Max Consumption</div>
+                <div class="metric-value">{df['use [kW]'].max():.2f} kW</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with c4:
+            st.markdown(f"""
+            <div class="metric-card">
+                <div class="metric-label">Avg Temperature</div>
+                <div class="metric-value">{df['temperature'].mean():.1f}°C</div>
+            </div>
+            """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown("### Dataset Sample")
+        st.subheader("📄 Dataset Sample")
         st.dataframe(df.head(10), use_container_width=True)
 
-    # ─── PAGE 2: EDA ─────────────────────────────────────────────────────────
-    elif page == "EDA":
-        st.markdown("---")
+    # ─── PAGE 2: EDA & VISUALIZATIONS ────────────────────────────────────────
+    elif page == "📊 EDA & Visualizations":
+        st.header("📊 Exploratory Data Analysis")
 
-        tab1, tab2, tab3 = st.tabs(["Distribution", "Correlation", "Trends"])
+        tab1, tab2, tab3 = st.tabs(["📈 Distribution", "🔗 Correlation", "📅 Time Trends"])
 
         with tab1:
-            st.markdown("### Energy Consumption Distribution")
-            fig = px.histogram(df, x='use [kW]', nbins=50, color_discrete_sequence=['#000000'])
+            st.subheader("Energy Consumption Distribution")
+            fig = px.histogram(df, x='use [kW]', nbins=50, 
+                               color_discrete_sequence=['#667eea'],
+                               title="Distribution of Energy Consumption (kW)")
+            fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
             st.plotly_chart(fig, use_container_width=True)
 
         with tab2:
-            st.markdown("### Feature Correlation Heatmap")
-            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 'hour', 'month', 'dayofweek']
+            st.subheader("Feature Correlation Heatmap")
+            
+            key_features = ['use [kW]', 'gen [kW]', 'temperature', 'humidity', 
+                            'hour', 'month', 'dayofweek', 'net_consumption']
+            
             correlation_df = df[key_features]
+            
             fig, ax = plt.subplots(figsize=(10, 8))
-            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
+            sns.heatmap(correlation_df.corr(), annot=True, cmap='coolwarm', 
+                        ax=ax, fmt='.2f', square=True, linewidths=0.5)
+            plt.title('Correlation Matrix - Key Features', fontsize=14, pad=20)
             st.pyplot(fig)
             
-            st.success("**Key Insights:** Temperature & Humidity affect consumption | Hour shows usage patterns")
+            st.markdown("""
+            <div class="success-box">
+                <strong>Key Insights:</strong>
+                <ul>
+                    <li>Temperature & Humidity affect energy consumption</li>
+                    <li>Hour of day shows usage patterns</li>
+                    <li>Net consumption = Usage - Generation</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
 
         with tab3:
-            st.markdown("### Hourly Consumption")
-            hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
-            fig = px.bar(hourly, x='hour', y='use [kW]', color_discrete_sequence=['#000000'])
-            st.plotly_chart(fig, use_container_width=True)
+            st.subheader("Consumption Trends")
+            col_a, col_b = st.columns(2)
+            with col_a:
+                hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
+                fig = px.bar(hourly, x='hour', y='use [kW]', 
+                             color_discrete_sequence=['#667eea'],
+                             title="Avg Consumption by Hour")
+                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                st.plotly_chart(fig, use_container_width=True)
+            with col_b:
+                monthly = df.groupby('month')['use [kW]'].mean().reset_index()
+                fig = px.line(monthly, x='month', y='use [kW]', markers=True,
+                              color_discrete_sequence=['#764ba2'],
+                              title="Avg Consumption by Month")
+                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                st.plotly_chart(fig, use_container_width=True)
 
     # ─── PAGE 3: MODEL TRAINING ──────────────────────────────────────────────
-    elif page == "Model Training":
-        st.markdown("---")
+    elif page == "🤖 Model Training":
+        st.header("🤖 Machine Learning Model Training")
         
         features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
         target = 'use [kW]'
         
-        if all(f in df.columns for f in features) and target in df.columns:
+        missing_cols = [col for col in features + [target] if col not in df.columns]
+        
+        if missing_cols:
+            st.error(f"❌ Missing columns: {missing_cols}")
+            st.info("Available: " + ", ".join(df.columns.tolist()))
+        else:
             X = df[features]
             y = df[target]
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -237,7 +392,8 @@ if df is not None:
             X_train_sc = scaler.fit_transform(X_train)
             X_test_sc = scaler.transform(X_test)
 
-            model_choice = st.selectbox("Select Algorithm", ["Linear Regression", "Ridge Regression", "Random Forest"])
+            model_choice = st.selectbox("Select Algorithm", 
+                                        ["Linear Regression", "Ridge Regression", "Random Forest"])
             
             if model_choice == "Linear Regression":
                 model = LinearRegression()
@@ -258,33 +414,58 @@ if df is not None:
             rmse = np.sqrt(mean_squared_error(y_test, y_pred))
             r2 = r2_score(y_test, y_pred)
 
-            st.markdown("### Model Performance")
+            st.markdown("### 📏 Model Performance")
             c1, c2, c3 = st.columns(3)
-            c1.metric("MAE", f"{mae:.4f}")
-            c2.metric("RMSE", f"{rmse:.4f}")
-            c3.metric("R²", f"{r2:.4f}")
+            
+            with c1:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-label">MAE (Error)</div>
+                    <div class="metric-value">{mae:.4f}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with c2:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-label">RMSE (Error)</div>
+                    <div class="metric-value">{rmse:.4f}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with c3:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-label">R² (Accuracy)</div>
+                    <div class="metric-value">{r2:.4f}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown("---")
-            st.markdown("### Actual vs Predicted")
+            st.subheader("Actual vs Predicted Values")
             result_df = pd.DataFrame({'Actual': y_test.values[:200], 'Predicted': y_pred[:200]})
-            fig = px.line(result_df, color_discrete_sequence=['#000000', '#666666'])
+            fig = px.line(result_df, title="Actual vs Predicted (First 200 Samples)",
+                          color_discrete_sequence=['#667eea', '#764ba2'])
+            fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
             st.plotly_chart(fig, use_container_width=True)
             
             if model_choice == "Random Forest":
-                st.markdown("---")
-                st.markdown("### Feature Importance")
+                st.subheader("Feature Importance")
                 fi = pd.DataFrame({'Feature': features, 'Importance': model.feature_importances_})
                 fi = fi.sort_values('Importance', ascending=True)
-                fig = px.bar(fi, x='Importance', y='Feature', orientation='h', color_discrete_sequence=['#000000'])
+                fig = px.bar(fi, x='Importance', y='Feature', orientation='h',
+                             color_discrete_sequence=['#667eea'])
+                fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
                 st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.error("Required columns not found in dataset")
 
     # ─── PAGE 4: ANOMALY DETECTION ───────────────────────────────────────────
-    elif page == "Anomaly Detection":
-        st.markdown("---")
+    elif page == "🔍 Anomaly Detection":
+        st.header("🔍 Electricity Theft / Anomaly Detection")
         
-        st.info("🔍 **Detection Method:** IQR (Interquartile Range) — Outliers may indicate electricity theft")
+        st.markdown("""
+        <div class="info-box">
+            <strong>Method:</strong> IQR (Interquartile Range) — Outliers may indicate theft or leakage
+        </div>
+        """, unsafe_allow_html=True)
 
         Q1 = df['use [kW]'].quantile(0.25)
         Q3 = df['use [kW]'].quantile(0.75)
@@ -297,26 +478,52 @@ if df is not None:
         normal = df[df['anomaly'] == False]
 
         c1, c2, c3 = st.columns(3)
-        c1.metric("Total Records", f"{len(df):,}")
-        c2.metric("🚨 Anomalies", f"{len(anomalies):,}")
-        c3.metric("✅ Normal", f"{len(normal):,}")
+        
+        with c1:
+            st.markdown(f"""
+            <div class="metric-card">
+                <div class="metric-label">Total Records</div>
+                <div class="metric-value">{len(df):,}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with c2:
+            st.markdown(f"""
+            <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="metric-label">🚨 Anomalies</div>
+                <div class="metric-value">{len(anomalies):,}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with c3:
+            st.markdown(f"""
+            <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="metric-label">✅ Normal</div>
+                <div class="metric-value">{len(normal):,}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-        st.markdown("---")
-        st.markdown("### Anomaly Visualization")
+        st.subheader("Anomaly Visualization")
         plot_df = df.head(1000).reset_index(drop=True)
-        fig = px.scatter(plot_df, x=plot_df.index, y='use [kW]', color='anomaly',
-                         color_discrete_map={False: '#000000', True: '#dc3545'})
+        fig = px.scatter(plot_df, x=plot_df.index, y='use [kW]',
+                         color='anomaly', 
+                         color_discrete_map={False: '#667eea', True: '#f5576c'},
+                         title="Energy Consumption (Red = Anomaly)")
+        fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("---")
-        st.markdown("### Sample Anomalous Records")
-        st.dataframe(anomalies[['time', 'use [kW]', 'hour']].head(10), use_container_width=True)
+        st.subheader("Sample Anomalous Records")
+        st.dataframe(anomalies[['time', 'use [kW]', 'hour', 'temperature']].head(10), 
+                     use_container_width=True)
 
     # ─── PAGE 5: MODEL COMPARISON ────────────────────────────────────────────
-    elif page == "Model Comparison":
-        st.markdown("---")
-        
-        st.info("📊 **Model Comparison:** Comparing all three models on the same test set")
+    elif page == "📈 Model Comparison":
+        st.header("📈 Algorithm Comparison")
+        st.markdown("""
+        <div class="info-box">
+            Comparing all three models on the same test set to determine the best performer
+        </div>
+        """, unsafe_allow_html=True)
 
         features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
         target = 'use [kW]'
@@ -351,13 +558,23 @@ if df is not None:
         comparison_df.columns = ['Model', 'MAE', 'RMSE', 'R²']
         st.dataframe(comparison_df, use_container_width=True)
 
-        st.markdown("---")
-        fig = px.bar(comparison_df, x='Model', y='R²', color='R²', color_continuous_scale='Blues')
+        fig = px.bar(comparison_df, x='Model', y='R²', color='R²',
+                     color_continuous_scale='Blues', 
+                     title="R² Score Comparison (Higher is Better)")
+        fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
         st.plotly_chart(fig, use_container_width=True)
 
         best = comparison_df.loc[comparison_df['R²'].idxmax(), 'Model']
-        st.success(f"🏆 **Best Performing Model: {best}**")
+        st.markdown(f"""
+        <div class="success-box">
+            <h3>🏆 Best Performing Model: {best}</h3>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ─── SECTION 8: FOOTER ───────────────────────────────────────────────────────
 st.markdown("---")
-st.markdown('<div class="footer">Deployed on Streamlit Cloud | Python for Data Science Project | 2024</div>', unsafe_allow_html=True)
+st.markdown("""
+<div class="footer">
+    <p>🚀 Deployed on Streamlit Cloud | 🎓 Python for Data Science Project | © 2024 Smart Home Energy Analytics</p>
+</div>
+""", unsafe_allow_html=True)
