@@ -458,4 +458,4 @@ if df is not None:
             fig.update_layout(
                 plot_bgcolor='rgba(255,255,255,1)',
                 paper_bgcolor='rgba(255,255,255,1)',
-                font=dict(family
+                font=dict(family)
