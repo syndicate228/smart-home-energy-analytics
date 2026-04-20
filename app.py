@@ -25,20 +25,15 @@ st.set_page_config(
 # ─── SECTION 3: CUSTOM CSS STYLING ───────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Import Clean Font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
     /* Main Background - Clean White */
     .stApp {
         background-color: #ffffff;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     /* Main Container */
     .main > div {
         background-color: #ffffff;
         padding: 2rem;
-        margin: 0;
         max-width: 1400px;
         margin: 0 auto;
     }
@@ -50,7 +45,6 @@ st.markdown("""
         color: #1a1a1a;
         text-align: left;
         padding: 2rem 0 1rem 0;
-        letter-spacing: -0.5px;
         border-bottom: 2px solid #000000;
         margin-bottom: 0.5rem;
     }
@@ -61,14 +55,12 @@ st.markdown("""
         text-align: left;
         margin-bottom: 2rem;
         font-weight: 400;
-        line-height: 1.6;
     }
     
     /* Section Headers */
     h1, h2, h3 {
         color: #1a1a1a;
         font-weight: 600;
-        letter-spacing: -0.3px;
     }
     
     /* Sidebar - Minimalist */
@@ -77,43 +69,14 @@ st.markdown("""
         border-right: 1px solid #e5e5e5;
     }
     
-    .sidebar .sidebar-content {
-        background-color: #fafafa;
-    }
-    
-    /* Navigation Items */
-    .stRadio > label {
-        color: #333333;
-        font-weight: 500;
-        padding: 0.8rem 1rem;
-        border-radius: 8px;
-        margin: 0.2rem 0;
-        transition: all 0.2s ease;
-    }
-    
-    .stRadio > label:hover {
-        background-color: #f0f0f0;
-    }
-    
-    .stRadio input:checked + label {
-        background-color: #1a1a1a;
-        color: #ffffff;
-    }
-    
-    /* Metric Cards - Clean Border Style */
+    /* Metric Cards */
     .metric-card {
         background-color: #ffffff;
         border: 1px solid #e5e5e5;
         border-radius: 12px;
         padding: 1.5rem;
         text-align: left;
-        transition: all 0.3s ease;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    }
-    
-    .metric-card:hover {
-        border-color: #1a1a1a;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     }
     
     .metric-value {
@@ -131,7 +94,7 @@ st.markdown("""
         font-weight: 500;
     }
     
-    /* Info Boxes - Minimalist */
+    /* Info Boxes */
     .info-box {
         background-color: #fafafa;
         border-left: 3px solid #1a1a1a;
@@ -159,7 +122,7 @@ st.markdown("""
         margin: 1.5rem 0;
     }
     
-    /* Buttons - Clean Outline Style */
+    /* Buttons */
     .stButton > button {
         background-color: #ffffff;
         color: #1a1a1a;
@@ -167,8 +130,6 @@ st.markdown("""
         border-radius: 6px;
         padding: 0.6rem 1.5rem;
         font-weight: 500;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
     }
     
     .stButton > button:hover {
@@ -176,42 +137,19 @@ st.markdown("""
         color: #ffffff;
     }
     
-    /* Tabs - Minimalist */
+    /* Tabs */
     .stTabs [data-baseweb="tab-list"] {
         gap: 5px;
         border-bottom: 1px solid #e5e5e5;
     }
     
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 0;
-        padding: 0.8rem 1.5rem;
-        font-weight: 500;
-        color: #666666;
-        border: none;
-        border-bottom: 2px solid transparent;
-        transition: all 0.2s ease;
-    }
-    
-    .stTabs [data-baseweb="tab"]:hover {
-        color: #1a1a1a;
-        background-color: transparent;
-    }
-    
     .stTabs [aria-selected="true"] {
         color: #1a1a1a;
-        background-color: transparent;
         border-bottom: 2px solid #1a1a1a;
         font-weight: 600;
     }
     
-    /* DataFrames - Clean */
-    .dataframe {
-        border: 1px solid #e5e5e5;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    
-    /* Footer - Minimalist */
+    /* Footer */
     .footer {
         text-align: center;
         margin-top: 4rem;
@@ -221,35 +159,13 @@ st.markdown("""
         border-top: 1px solid #e5e5e5;
     }
     
-    /* Plotly Charts - Clean Background */
-    .plotly-chart {
-        background-color: #ffffff;
-    }
-    
     /* Hide Streamlit Branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    
-    /* Divider Lines */
-    hr {
-        border: none;
-        border-top: 1px solid #e5e5e5;
-        margin: 2rem 0;
-    }
-    
-    /* Select Boxes */
-    .stSelectbox > div > div {
-        border: 1px solid #e5e5e5;
-        border-radius: 6px;
-    }
-    
-    /* Slider */
-    .stSlider > div {
-        color: #1a1a1a;
-    }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ─── SECTION 4: HEADER DISPLAY ───────────────────────────────────────────────
 st.markdown('<div class="main-header">⚡ Smart Home Energy Analytics</div>', unsafe_allow_html=True)
@@ -275,12 +191,12 @@ with st.sidebar:
     st.markdown("""
     - **Subject:** Python for Data Science
     - **Team:** SY ECE A1
-    - **Dataset:** HomeC (UCI/Kaggle)
+    - **Dataset:** HomeC (Kaggle)
     - **Models:** LR, Ridge, RF
     """)
     st.markdown("---")
     st.markdown("### Version")
-    st.caption("v2.0 | 2024")
+    st.caption("v2.0 | 2026")
 
 # ─── SECTION 6: DATA LOADING & PREPROCESSING ─────────────────────────────────
 @st.cache_data
