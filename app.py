@@ -204,7 +204,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🌟 Quick Stats")
     st.metric("App Version", "2.0")
-    st.metric("Last Updated", "2024")
+    st.metric("Last Updated", "2026")
 
 # ─── SECTION 6: DATA LOADING & PREPROCESSING ─────────────────────────────────
 @st.cache_data
@@ -575,6 +575,6 @@ if df is not None:
 st.markdown("---")
 st.markdown("""
 <div class="footer">
-    <p>🚀 Deployed on Streamlit Cloud | 🎓 Python for Data Science Project | © 2024 Smart Home Energy Analytics</p>
+    <p>🚀 Deployed on Streamlit Cloud | 🎓 Python for Data Science Project | © 2026 Smart Home Energy Analytics</p>
 </div>
 """, unsafe_allow_html=True)
