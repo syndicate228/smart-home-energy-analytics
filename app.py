@@ -346,20 +346,22 @@ def show_comparison():
         rf.fit(X_train, y_train)
         results['RF'] = r2_score(y_test, rf.predict(X_test))
         
-        # Display results
-        results_df = pd.DataFrame(list(results.items()), columns=['Model', 'R² Score'])
+        # Display results - Use simple column name (no special characters)
+        results_df = pd.DataFrame(list(results.items()), columns=['Model', 'R2_Score'])
         st.dataframe(results_df, use_container_width=True)
         
-        fig = px.bar(results_df, x='Model', y='R² Score', color='R² Score',
+        fig = px.bar(results_df, x='Model', y='R2_Score', color='R2_Score',
                     title="Model Comparison (Higher R² = Better)",
                     color_continuous_scale='Blues')
         fig.update_layout(plot_bgcolor='white', paper_bgcolor='white')
         st.plotly_chart(fig, use_container_width=True)
         
-        best = results_df.loc[results_df['R²'].idxmax(), 'Model']
+        # Fix: Use simple column name
+        best = results_df.loc[results_df['R2_Score'].idxmax(), 'Model']
         st.success(f"🏆 Best Performing Model: {best}")
     else:
         st.error("Missing required columns")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE ROUTER
