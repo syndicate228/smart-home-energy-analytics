@@ -407,4 +407,43 @@ if df is not None:
         results = {}
         models = [
             ("Linear Regression", LinearRegression(), True),
-            ("Ridge Regression", Ridge(alpha=1.0), True),](streamdown:incomplete-link)
+            ("Ridge Regression", Ridge(alpha=1.0), True),
+            ("Random Forest", RandomForestRegressor(n_estimators=50, random_state=42), False)
+        ]
+
+        for name, model, use_scale in models:
+            if use_scale:
+                model.fit(X_train_sc, y_train)
+                pred = model.predict(X_test_sc)
+            else:
+                model.fit(X_train, y_train)
+                pred = model.predict(X_test)
+            
+            results[name] = {
+                "MAE": round(mean_absolute_error(y_test, pred), 4),
+                "RMSE": round(np.sqrt(mean_squared_error(y_test, pred)), 4),
+                "R²": round(r2_score(y_test, pred), 4)
+            }
+
+        comparison_df = pd.DataFrame(results).T.reset_index()
+        comparison_df.columns = ['Model', 'MAE', 'RMSE', 'R²']
+        st.dataframe(comparison_df, use_container_width=True)
+
+        st.markdown("---")
+        fig = px.bar(comparison_df, x='Model', y='R²', color='R²', color_continuous_scale='Blues')
+        st.plotly_chart(fig, use_container_width=True)
+
+        best = comparison_df.loc[comparison_df['R²'].idxmax(), 'Model']
+        st.markdown(f"""
+        <div class="success-box">
+            <strong>🏆 Best Model: {best}</strong>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ─── SECTION 8: FOOTER ───────────────────────────────────────────────────────
+st.markdown("---")
+st.markdown("""
+<div class="footer">
+    Deployed on Streamlit Cloud | Python for Data Science Project | 2024
+</div>
+""", unsafe_allow_html=True)
