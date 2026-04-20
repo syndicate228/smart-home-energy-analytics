@@ -109,55 +109,56 @@ if page == "Home":
 
 elif page == "EDA":
     st.markdown("---")
-    st.info("📊 **Exploratory Data Analysis** — Understanding data patterns before building models")
+    st.info("📊 Exploratory Data Analysis")
     
-    tab1, tab2, tab3 = st.tabs(["Distribution", "Correlation", "Trends"])
+    # Check data exists
+    if df is None:
+        st.error("Data not loaded")
+        st.stop()
     
-    with tab1:
-        st.write("### Energy Consumption Distribution")
-        st.write("Shows how consumption values are distributed. Most values cluster between 0.5-2.0 kW.")
-        fig = px.histogram(df, x='use [kW]', nbins=50, title="Consumption Distribution")
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.write("**Statistics:**")
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Mean", f"{df['use [kW]'].mean():.2f} kW")
-        c2.metric("Median", f"{df['use [kW]'].median():.2f} kW")
-        c3.metric("Std Dev", f"{df['use [kW]'].std():.2f} kW")
+    # TAB 1: DISTRIBUTION
+    st.write("### Tab 1: Distribution")
+    if 'use [kW]' in df.columns:
+        fig1 = px.histogram(df, x='use [kW]', nbins=30, title="Energy Consumption")
+        st.plotly_chart(fig1, use_container_width=True)
+        st.write(f"Mean: {df['use [kW]'].mean():.2f} kW | Max: {df['use [kW]'].max():.2f} kW")
+    else:
+        st.error("Column 'use [kW]' not found")
+        st.write("Available columns:", df.columns.tolist())
     
-    with tab2:
-        st.write("### Feature Correlation")
-        st.write("Red = positive correlation, Blue = negative correlation")
-        
-        cols = ['use [kW]', 'temperature', 'humidity', 'hour', 'month']
-        cols = [c for c in cols if c in df.columns]
-        
-        if len(cols) > 1:
-            corr_df = df[cols]
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.heatmap(corr_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
-            st.pyplot(fig)
-            st.success("✅ Temperature and hour are strong predictors!")
-        else:
-            st.error("Not enough columns for correlation")
+    st.markdown("---")
     
-    with tab3:
-        st.write("### Hourly Consumption")
-        st.write("Peak hours: 6-9 AM and 5-10 PM")
-        
-        if 'hour' in df.columns and 'use [kW]' in df.columns:
-            hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
-            fig = px.bar(hourly, x='hour', y='use [kW]', title="Hourly Pattern")
-            st.plotly_chart(fig, use_container_width=True)
-        
-        st.write("---")
-        st.write("### Monthly Consumption")
-        st.write("Summer = higher (AC), Winter = elevated (heating)")
-        
-        if 'month' in df.columns and 'use [kW]' in df.columns:
-            monthly = df.groupby('month')['use [kW]'].mean().reset_index()
-            fig = px.line(monthly, x='month', y='use [kW]', markers=True, title="Monthly Pattern")
-            st.plotly_chart(fig, use_container_width=True)
+    # TAB 2: CORRELATION
+    st.write("### Tab 2: Correlation")
+    cols_to_check = ['use [kW]', 'temperature', 'humidity', 'hour', 'month']
+    cols_available = [c for c in cols_to_check if c in df.columns]
+    
+    if len(cols_available) >= 2:
+        corr_df = df[cols_available]
+        fig2, ax = plt.subplots(figsize=(8, 6))
+        sns.heatmap(corr_df.corr(), annot=True, cmap='coolwarm', ax=ax, fmt='.2f')
+        st.pyplot(fig2)
+        st.write("Red = Positive correlation | Blue = Negative correlation")
+    else:
+        st.error("Not enough columns for correlation")
+        st.write("Available:", cols_available)
+    
+    st.markdown("---")
+    
+    # TAB 3: TRENDS
+    st.write("### Tab 3: Trends")
+    
+    if 'hour' in df.columns and 'use [kW]' in df.columns:
+        st.write("#### Hourly Pattern")
+        hourly = df.groupby('hour')['use [kW]'].mean().reset_index()
+        fig3 = px.bar(hourly, x='hour', y='use [kW]', title="By Hour")
+        st.plotly_chart(fig3, use_container_width=True)
+    
+    if 'month' in df.columns and 'use [kW]' in df.columns:
+        st.write("#### Monthly Pattern")
+        monthly = df.groupby('month')['use [kW]'].mean().reset_index()
+        fig4 = px.line(monthly, x='month', y='use [kW]', markers=True, title="By Month")
+        st.plotly_chart(fig4, use_container_width=True)
 
 elif page == "Model Training":
     st.markdown("---")
