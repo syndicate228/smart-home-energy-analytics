@@ -83,7 +83,7 @@ with st.sidebar:
     st.write("- **Dataset:** HomeC (Kaggle)")
     st.write("- **Models:** LR, Ridge, RF")
     st.markdown("---")
-    st.caption("v2.0 | 2024")
+    st.caption("v2.5 | 2026")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # DATA LOADING
@@ -455,4 +455,4 @@ elif page == "Model Comparison":
 # FOOTER
 # ═══════════════════════════════════════════════════════════════════════════
 st.markdown("---")
-st.markdown('<div class="footer">Deployed on Streamlit Cloud | Python for Data Science Project | 2024</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Deployed on Streamlit Cloud | Python for Data Science Project | 2026</div>', unsafe_allow_html=True)
