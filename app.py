@@ -155,7 +155,7 @@ st.write("AI-Powered Load Forecasting & Conservation Advisor for Smart Grid Opti
 with st.sidebar:
     st.write("### 🧭 Navigation")
     st.markdown("---")
-    page = st.radio("Select Page", ["Home", "EDA", "Model Training", "Anomaly Detection", "Model Comparison"], index=0)
+    page = st.radio("Select Page", ["Home", "EDA", "Model Training", "Anomaly Detection", "Model Comparison", "Live Prediction"], index=0)
     st.markdown("---")
     st.write("### 📋 Project Info")
     st.write("- **Subject:** Python for Data Science")
@@ -631,6 +631,61 @@ def show_comparison():
     else:
         st.error("Missing required columns")
 
+def show_live_prediction():
+    """Live Energy Prediction Calculator"""
+    st.markdown("---")
+    st.write("### ⚡ Live Energy Prediction")
+    st.write("Enter current conditions to predict energy consumption:")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        temp = st.slider("Temperature (°C)", 10.0, 40.0, 25.0, 0.5)
+    with col2:
+        humidity = st.slider("Humidity (%)", 30.0, 90.0, 60.0, 5.0)
+    with col3:
+        hour = st.slider("Hour of Day", 0, 23, 12)
+    
+    # Make prediction
+    if st.button("🔮 Predict Now"):
+        # Use your trained model
+        input_data = pd.DataFrame({
+            'temperature': [temp],
+            'humidity': [humidity],
+            'hour': [hour],
+            'month': [datetime.now().month],
+            'dayofweek': [datetime.now().weekday()]
+        })
+        
+        # Load your best model (Random Forest)
+        model = RandomForestRegressor(n_estimators=100, random_state=42)
+        features = ['temperature', 'humidity', 'hour', 'month', 'dayofweek']
+        X = df[features]
+        y = df['use [kW]']
+        model.fit(X, y)
+        
+        prediction = model.predict(input_data)[0]
+        
+        # Display result
+        st.markdown(f"""
+        <div class="success-box" style="text-align: center; padding: 2rem;">
+            <h2 style="font-size: 3rem; margin: 0;">⚡ {prediction:.2f} kW</h2>
+            <p style="font-size: 1.2rem;">Predicted Energy Consumption</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Recommendation
+        if prediction > 2.0:
+            st.warning("⚠️ **High Consumption Alert:** Consider turning off non-essential appliances")
+        elif prediction > 1.5:
+            st.info("ℹ️ **Moderate Consumption:** Normal usage pattern")
+        else:
+            st.success("✅ **Low Consumption:** Efficient energy usage!")
+
+# Add this to your navigation
+# In sidebar, add: "Live Prediction"
+# Then add: elif page == "Live Prediction": show_live_prediction()
+
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE ROUTER
 # ═══════════════════════════════════════════════════════════════════════════
@@ -644,7 +699,8 @@ elif page == "Anomaly Detection":
     show_anomaly()
 elif page == "Model Comparison":
     show_comparison()
-
+elif page == "Live Prediction": 
+    show_live_prediction()
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
 # ═══════════════════════════════════════════════════════════════════════════
