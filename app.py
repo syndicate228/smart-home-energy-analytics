@@ -162,11 +162,9 @@ with st.sidebar:
     st.write("- **Team:** SY ECE A1")
     st.write("- **Dataset:** HomeC (Kaggle)")
     st.write("- **Models:** LR, Ridge, RF")
-    with st.sidebar:
     st.write("### 🔄 Auto-Refresh")
     auto_refresh = st.checkbox("Enable Auto-Refresh", value=False)
     refresh_interval = st.slider("Refresh Interval (seconds)", 5, 60, 30)
-    
     if auto_refresh:
         st.info(f"🔄 Auto-refreshing every {refresh_interval} seconds")
         time.sleep(refresh_interval)
