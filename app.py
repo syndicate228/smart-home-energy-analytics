@@ -223,83 +223,50 @@ def show_eda():
     
     st.markdown("---")
     
-    # ─── CORRELATION HEATMAP ─────────────────────────────────────────────────
+     # ─── CORRELATION HEATMAP ─────────────────────────────────────────────────
     st.write("### 🔗 Feature Correlation Heatmap")
-    st.write("Visualizing relationships between key features. **Red** = Positive | **Blue** = Negative")
+    st.write("Red = Positive | Blue = Negative | Darker = Stronger")
     
-    # Option 1: Simple Heatmap (Key Features Only)
-    st.write("#### Simplified View (Key Features)")
-    
-    key_features = ['use [kW]', 'temperature', 'hour', 'month']
+    key_features = ['use [kW]', 'temperature', 'humidity', 'hour', 'month']
     key_features = [f for f in key_features if f in df.columns]
     
     if len(key_features) >= 2:
         corr_df = df[key_features]
         corr_matrix = corr_df.corr()
         
-        fig, ax = plt.subplots(figsize=(8, 6))
-        mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+        fig, ax = plt.subplots(figsize=(10, 8))
+        
+        # ✅ REMOVED mask - show full heatmap
         sns.heatmap(corr_matrix, 
                    annot=True, 
                    cmap='coolwarm', 
                    ax=ax, 
                    fmt='.2f',
-                   mask=mask,  # Hide upper triangle for cleaner look
-                   linewidths=1,
+                   linewidths=2,
                    linecolor='white',
                    cbar_kws={'shrink': 0.8},
-                   annot_kws={'size': 12, 'weight': 'bold'},
+                   annot_kws={'size': 14, 'weight': 'bold'},
                    square=True,
                    vmin=-1, vmax=1)
         
-        plt.title('Key Feature Correlations', fontsize=14, pad=15, fontweight='bold')
-        plt.xticks(rotation=45, ha='right')
-        plt.yticks(rotation=0)
+        plt.title('Feature Correlation Matrix', fontsize=16, pad=20, fontweight='bold')
+        plt.xticks(rotation=45, ha='right', fontsize=12)
+        plt.yticks(rotation=0, fontsize=12)
         plt.tight_layout()
         st.pyplot(fig)
         
-        # Show top correlations as table (cleaner than reading heatmap)
-        st.write("#### 🔝 Top Correlations with Consumption")
+        # Show insights
+        st.write("#### 🔝 Key Insights")
         if 'use [kW]' in key_features:
             correlations = corr_matrix['use [kW]'].abs().sort_values(ascending=False)
-            corr_table = pd.DataFrame({
-                'Feature': correlations.index,
-                'Correlation Strength': correlations.values.round(2)
-            })
-            st.dataframe(corr_table.style.background_gradient(cmap='Blues', subset=['Correlation Strength']), width='stretch')
             
-            if len(correlations) > 1:
-                st.success(f"💡 **Strongest Predictor:** {correlations.index[1]} (correlation: {correlations.iloc[1]:.2f})")
-    
-    st.markdown("---")
-    
-    # Option 2: Detailed Heatmap (Expandable)
-    with st.expander("📊 View Detailed Heatmap (All Features)"):
-        all_numeric = df.select_dtypes(include=[np.number]).columns.tolist()
-        # Limit to max 10 features for readability
-        if len(all_numeric) > 10:
-            all_numeric = all_numeric[:10]
-        
-        if len(all_numeric) >= 2:
-            full_corr = df[all_numeric].corr()
-            fig2, ax2 = plt.subplots(figsize=(12, 10))
-            sns.heatmap(full_corr, 
-                       annot=True, 
-                       cmap='coolwarm', 
-                       ax=ax2, 
-                       fmt='.2f',
-                       linewidths=0.5,
-                       linecolor='lightgray',
-                       cbar_kws={'shrink': 0.8},
-                       annot_kws={'size': 9},
-                       square=True,
-                       vmin=-1, vmax=1)
-            plt.title('All Features Correlation Matrix', fontsize=14, pad=15, fontweight='bold')
-            plt.xticks(rotation=45, ha='right')
-            plt.yticks(rotation=0)
-            plt.tight_layout()
-            st.pyplot(fig2)
-
+            c1, c2 = st.columns(2)
+            with c1:
+                st.success(f"**Strongest Predictor:** {correlations.index[1]} ({correlations.iloc[1]:.2f})")
+            with c2:
+                st.info(f"**Weakest Predictor:** {correlations.index[-1]} ({correlations.iloc[-1]:.2f})")
+    else:
+        st.error("Not enough features for correlation")
     
     # ─── CONSUMPTION CATEGORIES ──────────────────────────────────────────────
     st.write("### 📊 Consumption Categories")
