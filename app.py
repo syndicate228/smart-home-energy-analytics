@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import time
+from datetime import datetime
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
@@ -160,6 +162,15 @@ with st.sidebar:
     st.write("- **Team:** SY ECE A1")
     st.write("- **Dataset:** HomeC (Kaggle)")
     st.write("- **Models:** LR, Ridge, RF")
+    with st.sidebar:
+    st.write("### 🔄 Auto-Refresh")
+    auto_refresh = st.checkbox("Enable Auto-Refresh", value=False)
+    refresh_interval = st.slider("Refresh Interval (seconds)", 5, 60, 30)
+    
+    if auto_refresh:
+        st.info(f"🔄 Auto-refreshing every {refresh_interval} seconds")
+        time.sleep(refresh_interval)
+        st.rerun()
     st.markdown("---")
     st.caption("v2.0 | 2026")
 
