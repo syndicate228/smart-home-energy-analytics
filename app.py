@@ -27,14 +27,119 @@ st.markdown("""
 <style>
     .stApp { background-color: #ffffff; }
     .main-header { font-size: 2.5rem; font-weight: 700; color: #000000; padding: 1rem 0; border-bottom: 3px solid #000000; margin-bottom: 1rem; }
-    .info-box { background-color: #000000; border-radius: 12px; padding: 1.5rem; color: #ffffff; margin: 1rem 0; }
-    .success-box { background-color: #f0fff4; border-left: 4px solid #28a745; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-    .warning-box { background-color: #fff9f9; border-left: 4px solid #dc3545; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-    .footer { text-align: center; margin-top: 3rem; padding: 2rem; color: #999999; border-top: 1px solid #e5e5e5; }
+    
+    /* Modern Task Cards */
+    .task-card-dark {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        color: #ffffff;
+        margin: 1rem 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border-left: 5px solid #00d9ff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .task-card-dark:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .task-card-light {
+        background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        color: #1a1a2e;
+        margin: 1rem 0;
+        box-shadow: 0 8px 24px rgba(220, 53, 69, 0.1);
+        border-left: 5px solid #dc3545;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .task-card-light:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(220, 53, 69, 0.2);
+    }
+    
+    .task-card-dark h4, .task-card-light h4 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .task-card-dark p, .task-card-light p {
+        font-size: 0.95rem;
+        margin: 0.75rem 0;
+        line-height: 1.6;
+    }
+    
+    .task-card-dark strong, .task-card-light strong {
+        color: #00d9ff;
+        font-weight: 600;
+    }
+    
+    .task-card-light strong {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    
+    /* Metric Cards */
+    .metric-card {
+        background: #ffffff;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        border-color: #000000;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Info Boxes */
+    .info-box {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        color: #ffffff;
+        margin: 1rem 0;
+    }
+    
+    .success-box {
+        background-color: #f0fff4;
+        border-left: 4px solid #28a745;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .warning-box {
+        background-color: #fff9f9;
+        border-left: 4px solid #dc3545;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        color: #999999;
+        font-size: 0.85rem;
+        border-top: 1px solid #e5e5e5;
+    }
+    
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # HEADER
@@ -93,7 +198,7 @@ if df is None:
 # ═══════════════════════════════════════════════════════════════════════════
 
 def show_home():
-    """Home Page - Metrics, Info, Data Sample (NO CHARTS)"""
+    """Home Page - Modern Cards + Metrics + Info"""
     st.markdown("---")
     
     # Welcome Message
@@ -108,11 +213,12 @@ def show_home():
     
     st.markdown("---")
     
-    # Project Tasks
+    # Modern Task Cards
     col1, col2 = st.columns(2)
+    
     with col1:
         st.markdown("""
-        <div class="info-box">
+        <div class="task-card-dark">
             <h4>🔋 Task 1: Smart Grid Load Balancing</h4>
             <p><strong>Type:</strong> Supervised Regression</p>
             <p><strong>Goal:</strong> Predict energy consumption based on environmental and usage factors</p>
@@ -123,7 +229,7 @@ def show_home():
     
     with col2:
         st.markdown("""
-        <div class="warning-box">
+        <div class="task-card-light">
             <h4>🚨 Task 2: Electricity Theft Detection</h4>
             <p><strong>Type:</strong> Unsupervised Anomaly Detection</p>
             <p><strong>Goal:</strong> Identify abnormal consumption patterns</p>
@@ -146,10 +252,8 @@ def show_home():
     st.markdown("---")
     
     # Dataset Sample
-    st.write("### 📄 Dataset Sample (First 10 Records)")
-    st.dataframe(df.head(10), width='stretch')
-    
-    st.markdown("---")
+    with st.expander("📄 View Dataset Sample (First 10 Records)"):
+        st.dataframe(df.head(10), width='stretch')
     
     # Column Information
     with st.expander("📋 View Column Descriptions"):
